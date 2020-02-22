@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'ServiceNetwork_Example' do
+  pod 'ServiceNetwork', :path => '../'
+
+  target 'ServiceNetwork_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
