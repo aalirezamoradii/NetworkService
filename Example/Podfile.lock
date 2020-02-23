@@ -1,0 +1,16 @@
+PODS:
+  - ServiceNetwork (0.1.0)
+
+DEPENDENCIES:
+  - ServiceNetwork (from `../`)
+
+EXTERNAL SOURCES:
+  ServiceNetwork:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  ServiceNetwork: 1d99c6b0415575b4e4253863258adfad86db55ab
+
+PODFILE CHECKSUM: f2228654527d5c8fa57bf823b3549b296cd0c527
+
+COCOAPODS: 1.8.4

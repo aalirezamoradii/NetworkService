@@ -6,7 +6,7 @@
 //  Copyright © 2020 Alireza Moradi. All rights reserved.
 //
 
-import Service
+import ServiceNetwork
 
 struct SignUpM:Decodable, Requestable {
     

@@ -6,8 +6,7 @@
 //  Copyright © 2020 Alireza Moradi. All rights reserved.
 //
 
-import Foundation
-import Service
+import ServiceNetwork
 
 class Network {
     

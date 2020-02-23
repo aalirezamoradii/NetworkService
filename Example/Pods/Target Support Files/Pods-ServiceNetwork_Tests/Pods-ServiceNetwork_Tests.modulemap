@@ -1,0 +1,6 @@
+framework module Pods_ServiceNetwork_Tests {
+  umbrella header "Pods-ServiceNetwork_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

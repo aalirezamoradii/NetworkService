@@ -1,0 +1,6 @@
+framework module ServiceNetwork {
+  umbrella header "ServiceNetwork-umbrella.h"
+
+  export *
+  module * { export * }
+}

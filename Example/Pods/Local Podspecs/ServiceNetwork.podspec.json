@@ -1,0 +1,22 @@
+{
+  "name": "ServiceNetwork",
+  "version": "0.1.0",
+  "summary": "A short description of ServiceNetwork.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/aalirezamoradii/ServiceNetwork",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "aalirezamoradii": "aalirezamoradii@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/aalirezamoradii/ServiceNetwork.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "ServiceNetwork/Classes/**/*"
+}
