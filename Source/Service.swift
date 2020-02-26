@@ -13,12 +13,12 @@ public class Service  {
     private let baseURL:URL
     private let encoder:JSONEncoder
     private let decoder:JSONDecoder
-    private let header:String
+    private let baseHeader:[String:String]?
     private var session:URLSession!
     
-    public init(baseURL:URL, header:String) {
+    public init(baseURL:URL, baseHeader:[String:String]?) {
         self.baseURL = baseURL
-        self.header = header
+        self.baseHeader = baseHeader
         
         let jsonDecoder = JSONDecoder()
         jsonDecoder.dataDecodingStrategy = .base64
@@ -42,10 +42,8 @@ public class Service  {
     private func configRequest<T:Requestable>(object:T) throws -> URLRequest {
         guard let url = URL(string: type(of: object).url, relativeTo: baseURL) else { throw ServiceError.invalidURL }
         var request = URLRequest(url: url)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        if type(of: object).isHeader {
-            request.setValue(header, forHTTPHeaderField: "Authorization")
-        }
+        var header = type(of: object).header
+        request.allHTTPHeaderFields = header.merge(dict: baseHeader)
         request.httpMethod = type(of: object).method.rawValue
         do {
             switch type(of: object).requestType {
@@ -68,27 +66,29 @@ public class Service  {
         guard let componentUrl = components.url else { throw ServiceError.invalidURL }
         return URLRequest(url: componentUrl)
     }
-    private func validate(response:HTTPURLResponse?,data:Data?) throws -> Data {
-        guard let data = data else { throw ServiceError.invalidResponse }
+    private func validate<T:Decodable>(obejct:T.Type, response:HTTPURLResponse?,data:Data?) throws -> Data {
         guard let response = response else { throw ServiceError.invalidResponse }
+        guard let data = data else { throw ServiceError.invalidData }
         switch response.statusCode {
         case 401:
-            let errorResponse = try decoder.decode(ErrorResponse.self, from: data)
+            let errorResponse = try decoder.decode(ErrorResponse<T>.self, from: data)
             throw ServiceError.loginFaild(message: errorResponse.message)
-        case 400,402...:
-            let errorResponse = try decoder.decode(ErrorResponse.self, from: data)
+        case 400,402...499:
+            let errorResponse = try decoder.decode(ErrorResponse<T>.self, from: data)
             throw ServiceError.badHttpStatus(status: response.statusCode, message: errorResponse.message)
+        case 500...:
+            throw ServiceError.invalidResponse
         default:
             break
         }
         return data
     }
-    private func requestHandler<T:Decodable>(_ request: URLRequest, obejct:T.Type, completionHandler: @escaping (Result<T,ServiceError>) -> Void) {
+    private func requestHandler<T:Decodable>(_ request: URLRequest, obejct:T.Type, completionHandler: @escaping (Result<T?,ServiceError>) -> Void) {
         let dataTask = session.dataTask(with: request) { (data, response, error) in
             do {
                 if let error = error { throw error }
-                let data = try self.validate(response: response as? HTTPURLResponse, data: data)
-                let result = try self.decoder.decode(obejct, from: data)
+                let data = try self.validate(obejct:obejct, response: response as? HTTPURLResponse, data: data)
+                let result = data.isEmpty ? nil : try self.decoder.decode(obejct, from: data)
                 completionHandler(.success(result))
             } catch {
                 completionHandler(.failure(.invalidResponse))
@@ -96,7 +96,7 @@ public class Service  {
         }
         dataTask.resume()
     }
-    public func request<T:Requestable>(object:T, completionHandler: @escaping (Result<T.ResponseType,ServiceError>) -> Void) {
+    public func request<T:Requestable>(object:T, completionHandler: @escaping (Result<T.ResponseType?,ServiceError>) -> Void) {
         do {
             let request = try configRequest(object: object)
             requestHandler(request, obejct: T.ResponseType.self, completionHandler: completionHandler)
@@ -105,5 +105,3 @@ public class Service  {
         }
     }
 }
-//                let json = try JSONSerialization.jsonObject(with: data, options: []) as? Dictionary<String,Any>
-//                print((json)!)

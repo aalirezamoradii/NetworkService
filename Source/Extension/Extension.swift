@@ -12,24 +12,28 @@ extension Encodable {
         get {
             do {
                 let data = try JSONEncoder().encode(self)
-                do {
-                    guard let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
-                        return [:]
-                    }
-                    return dictionary
-                } catch {
-                    print(error)
+                guard let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+                    return [:]
                 }
+                return dictionary
             } catch {
-                print(error)
+                return [:]
             }
-            return [:]
         }
     }
 }
 extension URLComponents {
-    
     mutating func setQueryItems(with parameters: [String: Any]) {
         self.queryItems = parameters.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
+    }
+}
+extension Dictionary {
+    mutating func merge(dict:Dictionary?) -> Dictionary {
+        if let dict = dict {
+            for (key,value) in dict {
+                updateValue(value, forKey: key)
+            }
+        }
+        return self
     }
 }

@@ -10,12 +10,8 @@ import Foundation
 
 class SignUpVM {
     
-    private var model:SignUpResponse! {
-        didSet {
-            print("set")
-        }
-    }
-    private var parameters:SignUpM {
+
+    private var model:SignUpM {
         didSet {
             
         }
@@ -23,23 +19,29 @@ class SignUpVM {
     public var bool:((Bool) -> Void)?
 
     init(phoneNumber:String) {
-        parameters = SignUpM(phoneNumber: phoneNumber)
+        model = SignUpM(phoneNumber: phoneNumber)
     }
     public var phoneNumber:String {
         get {
-            parameters.phoneNumber
+            model.phoneNumber
         } set {
-            parameters = SignUpM(phoneNumber: newValue)
+            model = SignUpM(phoneNumber: newValue)
         }
     }
     
     public func request() {
-        Network.shared?.request(object: parameters, completionHandler: { response in
+        Network.shared?.request(object: model, completionHandler: { response in
             switch response {
             case .failure(let erorr):
+                switch erorr {
+                case .badHttpStatus(let code, let message):
+                    print(code,message ?? "")
+                default:
+                    break
+                }
                 self.bool?(false)
             case .success(let objects):
-                self.model = objects
+                print(objects)
                 self.bool?(true)
             }
         })

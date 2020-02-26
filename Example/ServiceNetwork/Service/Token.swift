@@ -7,33 +7,46 @@
 //
 
 import Foundation
-struct Token {
-    
-    static let shared = Token()
-    let credential:URLCredential
-    
-    init(user:String, password:String) {
-        credential = URLCredential(user: user, password: password, persistence: .permanent)
-        URLCredentialStorage.shared.set(credential, for: URLProtectionSpace())
-    }
-    init() {
-        credential = URLCredential()
-    }
-    func get(key:String) -> String {
-//        guard let storage = URLCredentialStorage.shared.credentials(for: URLProtectionSpace()) else { return "" }
-//        guard let value = storage[key] else { return "" }
+//struct Token {
+//
+//    static let shared = Token()
+//    let credential:URLCredential
+//
+//    init(user:String, password:String) {
+//        credential = URLCredential(user: user, password: password, persistence: .permanent)
+//        URLCredentialStorage.shared.set(credential, for: URLProtectionSpace())
+//    }
+//    init() {
+//        credential = URLCredential()
+//    }
+//    func get(key:String) -> String {
+////        guard let storage = URLCredentialStorage.shared.credentials(for: URLProtectionSpace()) else { return "" }
+////        guard let value = storage[key] else { return "" }
+////        if value.user == key {
+////            return value.password ?? ""
+////        }
+//        return ""
+//    }
+//    func get(key:String) -> Int {
+//        guard let storage = URLCredentialStorage.shared.credentials(for: URLProtectionSpace()) else { return 0 }
+//        guard let value = storage[key] else { return 0 }
 //        if value.user == key {
-//            return value.password ?? ""
+//            return Int(value.password ?? "") ?? 0
 //        }
-        return ""
-    }
-    func get(key:String) -> Int {
-        guard let storage = URLCredentialStorage.shared.credentials(for: URLProtectionSpace()) else { return 0 }
-        guard let value = storage[key] else { return 0 }
-        if value.user == key {
-            return Int(value.password ?? "") ?? 0
-        }
-        return 0
-    }
+//        return 0
+//    }
+//
+//}
+protocol Token {
+    static var headers:[String:String]? { get }
+}
+extension Token {
     
+    public static var headers:[String:String]? {
+        return [
+            "Content-Type":"application/json",
+            "AppVersion":"1.0",
+            "OsType":"IOS"
+        ]
+    }
 }

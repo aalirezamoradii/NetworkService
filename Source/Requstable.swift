@@ -13,10 +13,11 @@ public protocol Requestable: Encodable {
     static var method:HttpMethod { get }
     static var url: String { get }
     static var requestType: RequestType { get }
-    static var isHeader: Bool { get }
+    static var header: [String:String] { get }
     associatedtype ResponseType: Decodable
 }
 public extension Requestable {
+    
     static var method: HttpMethod {
         return .post
     }
@@ -28,7 +29,6 @@ public extension Requestable {
             return .urlQuery
         }
     }
-    static var isHeader: Bool { true }
 }
  public struct HttpMethod: BasicType {
     

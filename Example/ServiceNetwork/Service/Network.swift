@@ -8,18 +8,18 @@
 
 import ServiceNetwork
 
-class Network {
+class Network: Token {
     
     static var shared:Network? {
-        Network(url: ApiURL.baseURL, header: Token.shared.get(key: "token"))
+        Network(url: ApiURL.testURL, headers: headers)
     }
     private let service:Service
         
-    init?(url:String, header:String) {
+    init?(url:String, headers:[String:String]?) {
         guard let baseURL = URL(string: url) else { return nil }
-        self.service = Service(baseURL: baseURL, header: header)
+        self.service = Service(baseURL: baseURL, baseHeader: headers)
     }
-    public func request<T:Requestable>(object:T,completionHandler: @escaping (Result<T.ResponseType,ServiceError>) -> Void) {
+    public func request<T:Requestable>(object:T,completionHandler: @escaping (Result<T.ResponseType?,ServiceError>) -> Void) {
         service.request(object: object) { (response) in
             switch response {
             case .failure(let error):
@@ -27,10 +27,11 @@ class Network {
                 case .loginFaild(let message):
                     print(message ?? "")
                 default:
-                    break
+                    print(error)
                 }
             case .success(let success):
                 completionHandler(.success(success))
+                print(success)
             }
         }
     }

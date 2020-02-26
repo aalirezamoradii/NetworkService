@@ -19,8 +19,11 @@ struct ApiURL {
     static var baseURL:String {
         "https://testapinetbar.netbar.ir/api/"
     }
+    static var testURL:String {
+         "http://192.168.100.6:2010/api/v1.0/"
+    }
     static var signUpURL:String {
-        "Verification/GetSms"
+        "auth/send-code"
     }
     
     

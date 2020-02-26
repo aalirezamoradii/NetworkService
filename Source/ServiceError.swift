@@ -14,16 +14,32 @@ public enum ServiceError: LocalizedError {
     case loginFaild(message:String?)
     case invalidResponse
     case invalidURL
+    case invalidData
     public var errorDescription: String? {
         return nil
     }
 }
-public struct ErrorResponse: Codable {
+public protocol EResponse: Decodable {
     
-    let message: String
-    let feild: Int
-    init(message: String, feild: Int) {
+    var message: String { get }
+    associatedtype fields: Decodable
+    
+//    init(message: String) {
+//        self.message = message
+//        //self.fields = feild
+//    }
+}
+public struct ErrorResponse<T:Decodable>: EResponse {
+    
+    public var message: String
+    
+    public typealias fields = T
+    
+    init(message:String) {
         self.message = message
-        self.feild = feild
     }
+    
+}
+public struct Xxxxx: Decodable {
+    
 }
