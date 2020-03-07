@@ -13,10 +13,10 @@ public class Service  {
     private let baseURL:URL
     private let encoder:JSONEncoder
     private let decoder:JSONDecoder
-    private let baseHeader:[String:String]?
+    private let baseHeader:[String:String]
     private var session:URLSession!
     
-    public init(baseURL:URL, baseHeader:[String:String]?) {
+    public init(baseURL:URL, baseHeader:[String:String]) {
         self.baseURL = baseURL
         self.baseHeader = baseHeader
         
@@ -25,8 +25,8 @@ public class Service  {
         //        jsonDecoder.dateDecodingStrategy = .millisecondsSince1970
         decoder = jsonDecoder
         let jsonEncoder = JSONEncoder()
-        jsonEncoder.outputFormatting = []
-        jsonEncoder.dataEncodingStrategy = .base64
+//        jsonEncoder.outputFormatting = []
+//        jsonEncoder.dataEncodingStrategy = .base64
         encoder = jsonEncoder
         initialazeSession()
     }
@@ -38,7 +38,6 @@ public class Service  {
         config.shouldUseExtendedBackgroundIdleMode = true
         session = URLSession(configuration: config, delegate: nil, delegateQueue: .main)
     }
-    
     private func configRequest<T:Requestable>(object:T) throws -> URLRequest {
         guard let url = URL(string: type(of: object).url, relativeTo: baseURL) else { throw ServiceError.invalidURL }
         var request = URLRequest(url: url)
@@ -59,7 +58,7 @@ public class Service  {
         }
         return request
     }
-    private func configGet<R:Requestable>(url:URL,parameters:R) throws -> URLRequest {
+    private func configGet<T:Requestable>(url:URL,parameters:T) throws -> URLRequest {
         guard var components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { throw ServiceError.invalidURL }
         let dic = parameters.dictionary
         components.setQueryItems(with: dic)
@@ -67,15 +66,15 @@ public class Service  {
         return URLRequest(url: componentUrl)
     }
     private func validate<T:Decodable>(obejct:T.Type, response:HTTPURLResponse?,data:Data?) throws -> Data {
-        guard let response = response else { throw ServiceError.invalidResponse }
         guard let data = data else { throw ServiceError.invalidData }
+        guard let response = response else { throw ServiceError.invalidResponse }
         switch response.statusCode {
         case 401:
             let errorResponse = try decoder.decode(ErrorResponse<T>.self, from: data)
-            throw ServiceError.loginFaild(message: errorResponse.message)
+            throw ServiceError.loginFaild(message: errorResponse.title)
         case 400,402...499:
             let errorResponse = try decoder.decode(ErrorResponse<T>.self, from: data)
-            throw ServiceError.badHttpStatus(status: response.statusCode, message: errorResponse.message)
+            throw ServiceError.badHttpStatus(status: response.statusCode, message: errorResponse.title)
         case 500...:
             throw ServiceError.invalidResponse
         default:
@@ -83,25 +82,27 @@ public class Service  {
         }
         return data
     }
-    private func requestHandler<T:Decodable>(_ request: URLRequest, obejct:T.Type, completionHandler: @escaping (Result<T?,ServiceError>) -> Void) {
+    private func requestHandler<T:Requestable>(_ request: URLRequest, obejct:T, completionHandler: @escaping (Result<T.ResponseType?,Error>) -> Void)
+    {
         let dataTask = session.dataTask(with: request) { (data, response, error) in
             do {
                 if let error = error { throw error }
-                let data = try self.validate(obejct:obejct, response: response as? HTTPURLResponse, data: data)
-                let result = data.isEmpty ? nil : try self.decoder.decode(obejct, from: data)
+                let data = try self.validate(obejct:T.ResponseError.self, response: response as? HTTPURLResponse, data: data)
+                let result = data.isEmpty ? nil : try self.decoder.decode(T.ResponseType.self, from: data)
                 completionHandler(.success(result))
             } catch {
-                completionHandler(.failure(.invalidResponse))
+                completionHandler(.failure(error))
             }
         }
         dataTask.resume()
     }
-    public func request<T:Requestable>(object:T, completionHandler: @escaping (Result<T.ResponseType?,ServiceError>) -> Void) {
+    public func request<T:Requestable>(object:T, completionHandler: @escaping (Result<T.ResponseType?,Error>) -> Void) {
         do {
             let request = try configRequest(object: object)
-            requestHandler(request, obejct: T.ResponseType.self, completionHandler: completionHandler)
+            requestHandler(request, obejct: object, completionHandler: completionHandler)
         } catch {
-            completionHandler(.failure(.invalidURL))
+            completionHandler(.failure(error))
         }
     }
 }
+

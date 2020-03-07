@@ -13,8 +13,9 @@ public protocol Requestable: Encodable {
     static var method:HttpMethod { get }
     static var url: String { get }
     static var requestType: RequestType { get }
-    static var header: [String:String] { get }
+    static var header:[String:String] { get }
     associatedtype ResponseType: Decodable
+    associatedtype ResponseError: Decodable
 }
 public extension Requestable {
     
@@ -22,12 +23,7 @@ public extension Requestable {
         return .post
     }
     static var requestType: RequestType {
-        switch method {
-        case .post:
-            return .jsonBody
-        default:
-            return .urlQuery
-        }
+        .jsonBody
     }
 }
  public struct HttpMethod: BasicType {
@@ -56,3 +52,4 @@ public enum RequestType {
     case multipartFormData
     case urlQuery
 }
+

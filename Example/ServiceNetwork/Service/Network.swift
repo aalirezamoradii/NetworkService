@@ -1,3 +1,4 @@
+
 //
 //  Network.swift
 //  Netbar Drivers
@@ -8,31 +9,36 @@
 
 import ServiceNetwork
 
-class Network: Token {
+class Network {
     
     static var shared:Network? {
-        Network(url: ApiURL.testURL, headers: headers)
+        Network(url: ApiURL.baseURL, header: BaseHeader.header)
     }
+    
     private let service:Service
-        
-    init?(url:String, headers:[String:String]?) {
+    
+    init?(url:String,header:[String:String]) {
         guard let baseURL = URL(string: url) else { return nil }
-        self.service = Service(baseURL: baseURL, baseHeader: headers)
+        self.service = Service(baseURL: baseURL, baseHeader: header)
     }
     public func request<T:Requestable>(object:T,completionHandler: @escaping (Result<T.ResponseType?,ServiceError>) -> Void) {
         service.request(object: object) { (response) in
             switch response {
             case .failure(let error):
+                guard let error = error as? ServiceError else { break }
                 switch error {
-                case .loginFaild(let message):
-                    print(message ?? "")
+                case .badHttpStatus(let status, let message):
+                    print(status,message!)
                 default:
                     print(error)
                 }
             case .success(let success):
                 completionHandler(.success(success))
-                print(success)
             }
         }
+    }
+    
+    private func refreshToken<T:Requestable>(object:T,completionHandler: @escaping (Result<T,Error>) -> Void) {
+        
     }
 }

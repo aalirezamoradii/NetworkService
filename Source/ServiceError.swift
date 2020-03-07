@@ -15,31 +15,8 @@ public enum ServiceError: LocalizedError {
     case invalidResponse
     case invalidURL
     case invalidData
+    case invalidServer
     public var errorDescription: String? {
         return nil
     }
-}
-public protocol EResponse: Decodable {
-    
-    var message: String { get }
-    associatedtype fields: Decodable
-    
-//    init(message: String) {
-//        self.message = message
-//        //self.fields = feild
-//    }
-}
-public struct ErrorResponse<T:Decodable>: EResponse {
-    
-    public var message: String
-    
-    public typealias fields = T
-    
-    init(message:String) {
-        self.message = message
-    }
-    
-}
-public struct Xxxxx: Decodable {
-    
 }

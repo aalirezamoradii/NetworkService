@@ -21,6 +21,19 @@ extension Encodable {
             }
         }
     }
+    public var dict:[String:String] {
+        get {
+            do {
+                let data = try JSONEncoder().encode(self)
+                guard let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: String] else {
+                    return [:]
+                }
+                return dictionary
+            } catch {
+                return [:]
+            }
+        }
+    }
 }
 extension URLComponents {
     mutating func setQueryItems(with parameters: [String: Any]) {
@@ -36,4 +49,18 @@ extension Dictionary {
         }
         return self
     }
+}
+extension Data {
+    
+    public func json() -> [String:Any]? {
+        do {
+            if let json = try JSONSerialization.jsonObject(with: self, options: []) as? [String: Any] {
+                return json
+            }
+            return nil
+        } catch {
+            return nil
+        }
+    }
+    
 }

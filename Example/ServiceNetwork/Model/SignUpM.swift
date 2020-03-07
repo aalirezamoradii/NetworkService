@@ -10,17 +10,26 @@ import ServiceNetwork
 
 struct SignUpM:Decodable, Requestable {
     
-    static var header: [String : String] {
-        [:]
-    }
-    public static var url: String { ApiURL.signUpURL }
-    public static var requestType: RequestType { .jsonBody }
-    public static var method: HttpMethod { .post }
+    static var url: String { ApiURL.signUpURL }
+    static var requestType: RequestType { .jsonBody }
+    static var method: HttpMethod { .post }
     typealias ResponseType = SignUpM
-    
+    typealias ResponseError = SignUpMError
+    static var header: [String : String] { [:] }
+
     let phoneNumber:String
-    
-    public init(phoneNumber:String) {
+    init(phoneNumber:String) {
         self.phoneNumber = phoneNumber
     }
+    
+}
+struct SignUpMError:Decodable {
+    let phoneNumber:[String]
+    
+    enum CodingKeys: String, CodingKey {
+        case phoneNumber = "PhoneNumber"
+    }
+}
+struct SignUpHeader:Encodable {
+    
 }

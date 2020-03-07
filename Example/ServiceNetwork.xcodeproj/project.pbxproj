@@ -13,6 +13,8 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		F623A22824137B29003612F7 /* BaseHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F623A22724137B29003612F7 /* BaseHeader.swift */; };
+		F623A22A24137B52003612F7 /* Security.swift in Sources */ = {isa = PBXBuildFile; fileRef = F623A22924137B52003612F7 /* Security.swift */; };
 		F6D018BB2401F62A00EDD9FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F6D018BA2401F62A00EDD9FD /* Main.storyboard */; };
 		F6D018C52401F63D00EDD9FD /* SignUpVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D018C42401F63C00EDD9FD /* SignUpVM.swift */; };
 		F6D018C82401F64D00EDD9FD /* SignUpM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D018C72401F64D00EDD9FD /* SignUpM.swift */; };
@@ -50,6 +52,8 @@
 		CB33396F47702917ED6A7418 /* ServiceNetwork.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = ServiceNetwork.podspec; path = ../ServiceNetwork.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		E0E611028D6C1C562D79A3C8 /* Pods_ServiceNetwork_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ServiceNetwork_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4785D48A554CCAF845A8AC7 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		F623A22724137B29003612F7 /* BaseHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseHeader.swift; sourceTree = "<group>"; };
+		F623A22924137B52003612F7 /* Security.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Security.swift; path = "../../../../../New Project Netbar/Netbar Drivers/Netbar Drivers/Service/Security.swift"; sourceTree = "<group>"; };
 		F6D018BA2401F62A00EDD9FD /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		F6D018C42401F63C00EDD9FD /* SignUpVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVM.swift; sourceTree = "<group>"; };
 		F6D018C72401F64D00EDD9FD /* SignUpM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpM.swift; sourceTree = "<group>"; };
@@ -192,6 +196,8 @@
 			isa = PBXGroup;
 			children = (
 				F6D018CA2401F65800EDD9FD /* Network.swift */,
+				F623A22924137B52003612F7 /* Security.swift */,
+				F623A22724137B29003612F7 /* BaseHeader.swift */,
 				F6D018CB2401F65800EDD9FD /* URL.swift */,
 				F6D018CC2401F65800EDD9FD /* Token.swift */,
 			);
@@ -379,6 +385,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F623A22A24137B52003612F7 /* Security.swift in Sources */,
 				F6D018CE2401F65800EDD9FD /* URL.swift in Sources */,
 				F6D018C52401F63D00EDD9FD /* SignUpVM.swift in Sources */,
 				F6D018C82401F64D00EDD9FD /* SignUpM.swift in Sources */,
@@ -386,6 +393,7 @@
 				F6D018D22401F71B00EDD9FD /* ViewController.swift in Sources */,
 				F6D018CD2401F65800EDD9FD /* Network.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				F623A22824137B29003612F7 /* BaseHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
