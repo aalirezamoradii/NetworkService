@@ -24,14 +24,14 @@ public class NetworkService  {
                 let request = try requestHandler(object: object)
                 task(request, obejct: object, completion: completion)
             } catch {
-                completion(.failure(ServiceError<T>.failure(error)))
+                completion(.failure(NSError<T>.failure(error)))
             }
         }
     }
     
     private func requestHandler<T>(object:T) throws -> URLRequest where T : Requestable {
         
-        guard let url = URL(string: type(of: object).url, relativeTo: base.url) else { throw ServiceError<T.ResponseError>.invalidURL }
+        guard let url = URL(string: type(of: object).url, relativeTo: base.url) else { throw NSError<T.ResponseError>.invalidURL }
         
         var request = URLRequest(url: url)
         
@@ -57,18 +57,18 @@ public class NetworkService  {
     }
     private func query<T>(url:URL, parameters:T) throws -> URLRequest where T : Requestable {
         
-        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { throw ServiceError<T.ResponseError>.invalidURL }
+        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { throw NSError<T.ResponseError>.invalidURL }
         
         components.queryItems(with: parameters.dictionary)
         
-        guard let componentUrl = components.url else { throw ServiceError<T.ResponseError>.invalidURL }
+        guard let componentUrl = components.url else { throw NSError<T.ResponseError>.invalidURL }
         
         return URLRequest(url: componentUrl)
     }
     
     private func response<T>(obejct:T.Type, response:HTTPURLResponse?, data:Data?) throws -> Data where T : Decodable {
                 
-        guard let response = response else { throw ServiceError<T>.invalidResponse }
+        guard let response = response else { throw NSError<T>.invalidResponse }
         
         switch response.statusCode {
         
@@ -76,32 +76,32 @@ public class NetworkService  {
             return data ?? Data()
             
         case 401:
-            guard let data = data else { throw ServiceError<T>.invalidData }
+            guard let data = data else { throw NSError<T>.invalidData }
             
             let error = try base.decode(T.self, from: data)
                         
             if let error = error as? ErrorType<T> {
-                throw ServiceError<T>.loginFaild(error.title)
+                throw NSError<T>.loginFaild(error.title)
             } else {
-                throw ServiceError.error(error)
+                throw NSError.error(error)
             }
             
         case 400,402...499:
-            guard let data = data else { throw ServiceError<T>.invalidData }
+            guard let data = data else { throw NSError<T>.invalidData }
             
             let error = try base.decode(T.self, from: data)
                         
             if let error = error as? ErrorType<T> {
-                throw ServiceError<T>.badHttpStatus(response.statusCode, error.errors, error.title)
+                throw NSError<T>.badHttpStatus(response.statusCode, error.errors, error.title)
             } else {
-                throw ServiceError.error(error)
+                throw NSError.error(error)
             }
             
         case 500...:
-            throw ServiceError<T>.invalidServer
+            throw NSError<T>.invalidServer
             
         default:
-            throw ServiceError<T>.timeOut
+            throw NSError<T>.timeOut
         }
     }
     
@@ -116,7 +116,7 @@ public class NetworkService  {
                     : try base.decode(T.ResponseType.self, from: data)
                 completion(.success(result))
             } catch {
-                completion(.failure(ServiceError<T>.failure(error)))
+                completion(.failure(NSError<T>.failure(error)))
             }
         }.resume()
     }

@@ -21,7 +21,7 @@
 		F68D543E253CD9E500A52CCE /* RequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68D543D253CD9E500A52CCE /* RequestType.swift */; };
 		F6D018B42401EE5700EDD9FD /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D018AE2401EE5700EDD9FD /* NetworkService.swift */; };
 		F6D018B52401EE5700EDD9FD /* BasicType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D018B02401EE5700EDD9FD /* BasicType.swift */; };
-		F6D018B62401EE5700EDD9FD /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D018B12401EE5700EDD9FD /* ServiceError.swift */; };
+		F6D018B62401EE5700EDD9FD /* NSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D018B12401EE5700EDD9FD /* NSError.swift */; };
 		F6D018B72401EE5700EDD9FD /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D018B32401EE5700EDD9FD /* Extension.swift */; };
 		F6D018B92401EE6400EDD9FD /* Requstable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D018B82401EE6400EDD9FD /* Requstable.swift */; };
 		F918A02F2F895DFD6F48B67FDDF54F3C /* ServiceNetwork-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F74169AFFE6D86BF6D87DF2BCD488250 /* ServiceNetwork-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -80,7 +80,7 @@
 		F68D543D253CD9E500A52CCE /* RequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestType.swift; sourceTree = "<group>"; };
 		F6D018AE2401EE5700EDD9FD /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		F6D018B02401EE5700EDD9FD /* BasicType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicType.swift; sourceTree = "<group>"; };
-		F6D018B12401EE5700EDD9FD /* ServiceError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
+		F6D018B12401EE5700EDD9FD /* NSError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSError.swift; sourceTree = "<group>"; };
 		F6D018B32401EE5700EDD9FD /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		F6D018B82401EE6400EDD9FD /* Requstable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Requstable.swift; sourceTree = "<group>"; };
 		F74169AFFE6D86BF6D87DF2BCD488250 /* ServiceNetwork-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ServiceNetwork-umbrella.h"; sourceTree = "<group>"; };
@@ -244,7 +244,7 @@
 		F6D018AF2401EE5700EDD9FD /* DataType */ = {
 			isa = PBXGroup;
 			children = (
-				F6D018B12401EE5700EDD9FD /* ServiceError.swift */,
+				F6D018B12401EE5700EDD9FD /* NSError.swift */,
 				F623A225241379F3003612F7 /* ErrorType.swift */,
 				F68D543D253CD9E500A52CCE /* RequestType.swift */,
 				F68D5438253CD9B800A52CCE /* HttpMethod.swift */,
@@ -427,7 +427,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6D018B72401EE5700EDD9FD /* Extension.swift in Sources */,
-				F6D018B62401EE5700EDD9FD /* ServiceError.swift in Sources */,
+				F6D018B62401EE5700EDD9FD /* NSError.swift in Sources */,
 				F6D018B52401EE5700EDD9FD /* BasicType.swift in Sources */,
 				BF187A08B55D3F2C2BEE591C3E639BA0 /* ServiceNetwork-dummy.m in Sources */,
 				F68D5439253CD9B800A52CCE /* HttpMethod.swift in Sources */,

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum ServiceError<T>: LocalizedError where T : Decodable {
+public enum NSError<T>: LocalizedError where T : Decodable {
     
     case badHttpStatus(_ status:Int, _ error:T?, _ title:String)
     case loginFaild(_ message:String?)
