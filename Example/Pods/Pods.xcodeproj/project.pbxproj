@@ -15,8 +15,11 @@
 		AB154A002FF479AE083141F3AADA8455 /* Pods-ServiceNetwork_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 584948A935FD79A6FD4617A4FCB40965 /* Pods-ServiceNetwork_Example-dummy.m */; };
 		BF187A08B55D3F2C2BEE591C3E639BA0 /* ServiceNetwork-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7454D1761B8BEF338959F20E265EAFDD /* ServiceNetwork-dummy.m */; };
 		D0835BC559FD0952F35970B40FBFDC7E /* Pods-ServiceNetwork_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3DD75B95C4CB872FD832E981A6FF2A27 /* Pods-ServiceNetwork_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F623A226241379F3003612F7 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F623A225241379F3003612F7 /* ErrorResponse.swift */; };
-		F6D018B42401EE5700EDD9FD /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D018AE2401EE5700EDD9FD /* Service.swift */; };
+		F623A226241379F3003612F7 /* ErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F623A225241379F3003612F7 /* ErrorType.swift */; };
+		F68D5434253CD91C00A52CCE /* BaseNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68D5433253CD91C00A52CCE /* BaseNetwork.swift */; };
+		F68D5439253CD9B800A52CCE /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68D5438253CD9B800A52CCE /* HttpMethod.swift */; };
+		F68D543E253CD9E500A52CCE /* RequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68D543D253CD9E500A52CCE /* RequestType.swift */; };
+		F6D018B42401EE5700EDD9FD /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D018AE2401EE5700EDD9FD /* NetworkService.swift */; };
 		F6D018B52401EE5700EDD9FD /* BasicType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D018B02401EE5700EDD9FD /* BasicType.swift */; };
 		F6D018B62401EE5700EDD9FD /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D018B12401EE5700EDD9FD /* ServiceError.swift */; };
 		F6D018B72401EE5700EDD9FD /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D018B32401EE5700EDD9FD /* Extension.swift */; };
@@ -71,8 +74,11 @@
 		D14ADB531328A04007220FEE831D2ABE /* Pods-ServiceNetwork_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-ServiceNetwork_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		D1AC761C0A3B70F9EE9EB0EE7AF04955 /* Pods-ServiceNetwork_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ServiceNetwork_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		E0241BA10BC474FC938C44B82EC1EE64 /* ServiceNetwork.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = ServiceNetwork.modulemap; sourceTree = "<group>"; };
-		F623A225241379F3003612F7 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
-		F6D018AE2401EE5700EDD9FD /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		F623A225241379F3003612F7 /* ErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorType.swift; sourceTree = "<group>"; };
+		F68D5433253CD91C00A52CCE /* BaseNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNetwork.swift; sourceTree = "<group>"; };
+		F68D5438253CD9B800A52CCE /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		F68D543D253CD9E500A52CCE /* RequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestType.swift; sourceTree = "<group>"; };
+		F6D018AE2401EE5700EDD9FD /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		F6D018B02401EE5700EDD9FD /* BasicType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicType.swift; sourceTree = "<group>"; };
 		F6D018B12401EE5700EDD9FD /* ServiceError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
 		F6D018B32401EE5700EDD9FD /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
@@ -226,12 +232,11 @@
 		F6D018AD2401EE2300EDD9FD /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				F6D018AF2401EE5700EDD9FD /* DataType */,
 				F6D018B22401EE5700EDD9FD /* Extension */,
-				F6D018AE2401EE5700EDD9FD /* Service.swift */,
-				F623A225241379F3003612F7 /* ErrorResponse.swift */,
+				F6D018AF2401EE5700EDD9FD /* DataType */,
+				F6D018AE2401EE5700EDD9FD /* NetworkService.swift */,
+				F68D5433253CD91C00A52CCE /* BaseNetwork.swift */,
 				F6D018B82401EE6400EDD9FD /* Requstable.swift */,
-				F6D018B12401EE5700EDD9FD /* ServiceError.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -239,6 +244,10 @@
 		F6D018AF2401EE5700EDD9FD /* DataType */ = {
 			isa = PBXGroup;
 			children = (
+				F6D018B12401EE5700EDD9FD /* ServiceError.swift */,
+				F623A225241379F3003612F7 /* ErrorType.swift */,
+				F68D543D253CD9E500A52CCE /* RequestType.swift */,
+				F68D5438253CD9B800A52CCE /* HttpMethod.swift */,
 				F6D018B02401EE5700EDD9FD /* BasicType.swift */,
 			);
 			path = DataType;
@@ -421,9 +430,12 @@
 				F6D018B62401EE5700EDD9FD /* ServiceError.swift in Sources */,
 				F6D018B52401EE5700EDD9FD /* BasicType.swift in Sources */,
 				BF187A08B55D3F2C2BEE591C3E639BA0 /* ServiceNetwork-dummy.m in Sources */,
-				F6D018B42401EE5700EDD9FD /* Service.swift in Sources */,
+				F68D5439253CD9B800A52CCE /* HttpMethod.swift in Sources */,
+				F6D018B42401EE5700EDD9FD /* NetworkService.swift in Sources */,
 				F6D018B92401EE6400EDD9FD /* Requstable.swift in Sources */,
-				F623A226241379F3003612F7 /* ErrorResponse.swift in Sources */,
+				F68D5434253CD91C00A52CCE /* BaseNetwork.swift in Sources */,
+				F623A226241379F3003612F7 /* ErrorType.swift in Sources */,
+				F68D543E253CD9E500A52CCE /* RequestType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
