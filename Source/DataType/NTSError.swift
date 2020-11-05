@@ -8,17 +8,16 @@
 
 import Foundation
 
-public enum NSError<T>: LocalizedError where T : Decodable {
+public enum NTSError: LocalizedError {
     
-    case badHttpStatus(_ status:Int, _ error:T?, _ title:String)
-    case loginFaild(_ message:String?)
+    case badHttp(_ error: Decodable)
+    case loginFaild(_ error: Decodable)
     case invalidResponse
     case invalidURL
     case invalidData
     case invalidServer
     case timeOut
     case failure(_ error: Error)
-    case error(_ error: T?)
     
     public var errorDescription: String? {
         return nil

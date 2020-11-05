@@ -24,14 +24,14 @@ public class NetworkService  {
                 let request = try requestHandler(object: object)
                 task(request, obejct: object, completion: completion)
             } catch {
-                completion(.failure(NSError<T>.failure(error)))
+                completion(.failure(NTSError.failure(error)))
             }
         }
     }
     
     private func requestHandler<T>(object:T) throws -> URLRequest where T : Requestable {
         
-        guard let url = URL(string: type(of: object).url, relativeTo: base.url) else { throw NSError<T.ResponseError>.invalidURL }
+        guard let url = URL(string: type(of: object).url, relativeTo: base.url) else { throw NTSError.invalidURL }
         
         var request = URLRequest(url: url)
         
@@ -57,57 +57,41 @@ public class NetworkService  {
     }
     private func query<T>(url:URL, parameters:T) throws -> URLRequest where T : Requestable {
         
-        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { throw NSError<T.ResponseError>.invalidURL }
+        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { throw NTSError.invalidURL }
         
         components.queryItems(with: parameters.dictionary)
         
-        guard let componentUrl = components.url else { throw NSError<T.ResponseError>.invalidURL }
+        guard let componentUrl = components.url else { throw NTSError.invalidURL }
         
         return URLRequest(url: componentUrl)
     }
     
     private func response<T>(obejct:T.Type, response:HTTPURLResponse?, data:Data?) throws -> Data where T : Decodable {
                 
-        guard let response = response else { throw NSError<T>.invalidResponse }
+        guard let response = response else { throw NTSError.invalidResponse }
+        
+        guard let data = data else { throw NTSError.invalidData }
+        
+        let error = try base.decode(T.self, from: data)
         
         switch response.statusCode {
-        
-        case 200...208:
-            return data ?? Data()
-            
         case 401:
-            guard let data = data else { throw NSError<T>.invalidData }
+            throw NTSError.loginFaild(error)
             
-            let error = try base.decode(T.self, from: data)
-                        
-            if let error = error as? ErrorType<T> {
-                throw NSError<T>.loginFaild(error.title)
-            } else {
-                throw NSError.error(error)
-            }
-            
-        case 400,402...499:
-            guard let data = data else { throw NSError<T>.invalidData }
-            
-            let error = try base.decode(T.self, from: data)
-                        
-            if let error = error as? ErrorType<T> {
-                throw NSError<T>.badHttpStatus(response.statusCode, error.errors, error.title)
-            } else {
-                throw NSError.error(error)
-            }
+        case 400...499:
+                throw NTSError.badHttp(error)
             
         case 500...:
-            throw NSError<T>.invalidServer
+            throw NTSError.invalidServer
             
         default:
-            throw NSError<T>.timeOut
+            throw NTSError.timeOut
         }
     }
     
     private func task<T>(_ request: URLRequest, obejct:T, completion: @escaping handler<T>) where T : Requestable
     {
-        base.session.dataTask(with: request) { [self] (data, responses, error) in
+        let task = base.session.dataTask(with: request) { [self] (data, responses, error) in
             do {
                 if let error = error { throw error }
                 let data = try response(obejct:T.ResponseError.self, response: responses as? HTTPURLResponse, data: data)
@@ -116,9 +100,10 @@ public class NetworkService  {
                     : try base.decode(T.ResponseType.self, from: data)
                 completion(.success(result))
             } catch {
-                completion(.failure(NSError<T>.failure(error)))
+                completion(.failure(NTSError.failure(error)))
             }
-        }.resume()
+        }
+        task.resume()
     }
 }
 
