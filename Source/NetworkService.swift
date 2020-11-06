@@ -24,7 +24,7 @@ public class NetworkService  {
                 let request = try requestHandler(object: object)
                 task(request, obejct: object, completion: completion)
             } catch {
-                completion(.failure(NTSError.failure(error)))
+                completion(.failure(error))
             }
         }
     }
@@ -100,7 +100,7 @@ public class NetworkService  {
                     : try base.decode(T.ResponseType.self, from: data)
                 completion(.success(result))
             } catch {
-                completion(.failure(NTSError.failure(error)))
+                completion(.failure(error))
             }
         }
         task.resume()
