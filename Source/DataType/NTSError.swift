@@ -16,8 +16,7 @@ public enum NTSError: LocalizedError {
     case invalidURL
     case invalidData
     case invalidServer
-    case timeOut
-    case failure(_ error: Error)
+    case unknown
     
     public var errorDescription: String? {
         return nil

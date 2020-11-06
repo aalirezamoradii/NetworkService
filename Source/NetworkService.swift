@@ -75,6 +75,9 @@ public class NetworkService  {
         let error = try base.decode(T.self, from: data)
         
         switch response.statusCode {
+        case 200...208:
+            return data
+        
         case 401:
             throw NTSError.loginFaild(error)
             
@@ -85,7 +88,7 @@ public class NetworkService  {
             throw NTSError.invalidServer
             
         default:
-            throw NTSError.timeOut
+            throw NTSError.unknown
         }
     }
     

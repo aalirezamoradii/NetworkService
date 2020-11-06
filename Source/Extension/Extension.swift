@@ -36,6 +36,10 @@ extension URLComponents {
 
 extension Dictionary {
     mutating func merge(_ dictionary: Dictionary?) {
+        if self.isEmpty {
+            self = dictionary ?? [:]
+            return
+        }
         if let dict = dictionary {
             for (key,value) in dict {
                 updateValue(value, forKey: key)
