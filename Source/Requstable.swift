@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol Requestable: Codable , Request {
-      var header:[String:String] { get }
+    static var header:[String:String] { get set }
 }
 public protocol Request {
     static var method: HttpMethod { get }
@@ -31,6 +31,6 @@ public extension Requestable {
             return .jsonBody
         }
     }
-    var header:[String:String] { [:] }
+    static var header:[String:String] { [:] }
 }
 

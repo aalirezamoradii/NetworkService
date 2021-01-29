@@ -10,8 +10,8 @@ import Foundation
 
 public enum NTSError: LocalizedError {
     
-    case badHttp(_ error: Decodable)
-    case loginFaild(_ error: Decodable)
+    case badHttp(_ error: Decodable?)
+    case loginFaild(_ error: Decodable?)
     case invalidResponse
     case invalidURL
     case invalidData

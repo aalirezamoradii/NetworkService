@@ -29,7 +29,7 @@ public class NetworkService  {
         }
     }
     
-    private func requestHandler<T>(object:T) throws -> URLRequest where T : Requestable {
+    private func requestHandler<T>(object: T) throws -> URLRequest where T : Requestable {
         
         guard let url = URL(string: type(of: object).url, relativeTo: base.url) else { throw NTSError.invalidURL }
         
@@ -41,13 +41,13 @@ public class NetworkService  {
             request.httpBody = try base.encode(object)
             
         case .urlQuery:
-            request = try query(url: url, parameters: object)
+            request.url = try query(url: url, parameters: object)
             
         default:
             break
         }
         
-        var header = object.dictionary
+        var header = type(of: object).header
         header.merge(base.header)
         
         request.allHTTPHeaderFields = header
@@ -55,15 +55,15 @@ public class NetworkService  {
         
         return request
     }
-    private func query<T>(url:URL, parameters:T) throws -> URLRequest where T : Requestable {
+    private func query<T>(url:URL, parameters:T) throws -> URL where T : Requestable {
         
         guard var components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { throw NTSError.invalidURL }
         
-        components.queryItems(with: parameters.dictionary)
+        components.queryItems(with: parameters.anyDictionary)
         
         guard let componentUrl = components.url else { throw NTSError.invalidURL }
         
-        return URLRequest(url: componentUrl)
+        return componentUrl
     }
     
     private func response<T>(obejct:T.Type, response:HTTPURLResponse?, data:Data?) throws -> Data where T : Decodable {
@@ -72,7 +72,7 @@ public class NetworkService  {
         
         guard let data = data else { throw NTSError.invalidData }
         
-        let error = try base.decode(T.self, from: data)
+        let error = try? base.decode(T.self, from: data)
         
         switch response.statusCode {
         case 200...208:
@@ -82,7 +82,7 @@ public class NetworkService  {
             throw NTSError.loginFaild(error)
             
         case 400...499:
-                throw NTSError.badHttp(error)
+            throw NTSError.badHttp(error)
             
         case 500...:
             throw NTSError.invalidServer

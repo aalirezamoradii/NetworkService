@@ -26,6 +26,13 @@ extension Encodable {
             return objectDeserialaze as? [String:String] ?? [:]
         }
     }
+    
+    public var anyDictionary: [String:Any] {
+        get {
+            return objectDeserialaze as? [String:Any] ?? [:]
+        }
+    }
+    
 }
 
 extension URLComponents {
